@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-js</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <style>
+        .content {
+            padding-top: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 content">
+
+                <h3 class="text-center">Bazar List</h3>
+
+                <form @submit.prevent="addItem">
+                    <input v-model="newItem" class="form-control">
+                </form>
+
+                <hr>
+
+                <ul class="list-group">
+                    <li v-for="(item, index) in items" :key="index" class="list-group-item">
+                        <button class="btn btn-xs btn-danger" @click="removeItem(index)">--</button>
+                        {{ (index + 1) }}. {{ item.name }}
+                        <input class="pull-right text-right" style="width:50%" v-model="item.price">
+                    </li>
+                    <li class="list-group-item">
+                        <h4> Total <span class="pull-right"> {{ total }}</span></h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+ var app = new Vue({
+      el: '#app',
+      computed: {
+        total() {
+          var total = 0
+          this.items.forEach(item => {
+            total = total + parseFloat(item.price)
+          })
+          return total
+        }
+      },
+      data: {
+        items: [
+          { name: 'rice', price: 55.5 },
+          { name: 'potato', price: 15.0 },
+          { name: 'oil', price: 120.0 }
+        ],
+        newItem: ''
+      },
+      methods: {
+        addItem() {
+          this.items.push({
+            name: this.newItem,
+            price: 0.00
+          })
+          this.newItem = ''
+        },
+        removeItem(index) {
+          this.items.splice(index, 1)
+        }
+      }
+    });
+    </script>
+
+</body>
+
+</html>
